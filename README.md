@@ -1,6 +1,9 @@
 # 📈 StockCast: Forecasting with Sentiment Intelligence
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://stockcast-forecasting-with-sentiment-intel.streamlit.app)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://stockcast-dashboard.streamlit.app)
+...
+🔗 **[Open the App](https://stockcast-dashboard.streamlit.app)**
+
 
 What if the stock market wasn’t just driven by data... but by people?
 
@@ -25,8 +28,6 @@ It’s built from scratch, one phase at a time, through wins, retries, and long 
 ---
 
 ## 🚀 Live Dashboard
-
-👉 [Launch the app on Streamlit](https://stockcast-forecasting-with-sentiment-intel.streamlit.app)
 
 Forecast prices, compare models, explore sentiment overlays — all in your browser.
 
@@ -122,7 +123,7 @@ So I built a **Streamlit dashboard** where users can:
 
 And then... I deployed it.
 
-🔗 **[Open the App](https://stockcast-forecasting-with-sentiment-intel.streamlit.app)**  
+🔗 **[Open the App](https://stockcast-dashboard.streamlit.app)**
 You can try it live. Right now.
 
 ---
