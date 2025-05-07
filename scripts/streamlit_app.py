@@ -2,34 +2,34 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Set page configuration
+# Set Streamlit to light theme and wide layout
 st.set_page_config(
     page_title="StockCast Dashboard",
     page_icon="📈",
     layout="wide"
 )
 
-# Title and Caption
+# ----------------------------- Title Section -----------------------------
 st.title("📈 StockCast: Sentiment-Driven Stock Forecasting")
 st.caption("Blend market data with Twitter sentiment to forecast the future — interactively.")
 
-# Sidebar - Project Info
+# ----------------------------- Sidebar -----------------------------
 with st.sidebar:
     st.markdown("### About This Project")
     st.markdown("""
-    **StockCast** is a forecasting dashboard built using:
+**StockCast** is a forecasting dashboard built using:
 
-    - Facebook Prophet
-    - LightGBM
-    - RoBERTa Sentiment
-    - Plotly & Streamlit
+- Facebook Prophet
+- LightGBM
+- RoBERTa Sentiment
+- Plotly & Streamlit
 
-    Explore how sentiment affects stock trends. View predictions, compare models, and analyze changes over time.
-    
-    [GitHub Repo](https://github.com/tripathi-ayushi/StockCast-Forecasting-with-Sentiment-Intelligence)
+Explore how sentiment affects stock trends. View predictions, compare models, and analyze changes over time.
+
+🔗 [GitHub Repo](https://github.com/tripathi-ayushi/StockCast-Forecasting-with-Sentiment-Intelligence)
     """)
 
-# Load precomputed forecast CSVs
+# ----------------------------- Data Loading -----------------------------
 @st.cache_data
 def load_forecast(file_path):
     try:
@@ -43,7 +43,7 @@ roberta_df = load_forecast("outputs/forecasts/roberta_prophet_forecast.csv")
 lgbm_adv_df = load_forecast("outputs/forecasts/lightgbm_advanced_preds.csv")
 lgbm_comp_df = load_forecast("outputs/forecasts/lightgbm_sentiment_preds.csv")
 
-# Prophet Forecasting Section
+# ----------------------------- Prophet Forecast Section -----------------------------
 st.header("🧙 Prophet Forecasting")
 st.markdown("""
 Prophet is a time-series forecasting model developed by Facebook. 
@@ -53,48 +53,47 @@ We compare vanilla Prophet (price-only) with sentiment-enriched forecasts.
 tab1, tab2 = st.tabs(["Vanilla Prophet", "Prophet + Sentiment"])
 
 with tab1:
-    if "ds" in vanilla_df.columns and "yhat" in vanilla_df.columns:
-        fig1 = px.line(vanilla_df, x="ds", y="yhat", title="Vanilla Prophet Forecast")
-        st.plotly_chart(fig1, use_container_width=True)
+    if {"ds", "yhat"}.issubset(vanilla_df.columns):
+        fig = px.line(vanilla_df, x="ds", y="yhat", title="Vanilla Prophet Forecast")
+        st.plotly_chart(fig, use_container_width=True)
     else:
-        st.warning("Vanilla Prophet data is missing required columns.")
+        st.warning("Missing required columns in Vanilla Prophet forecast.")
 
 with tab2:
-    if "ds" in roberta_df.columns and "yhat" in roberta_df.columns:
-        fig2 = px.line(roberta_df, x="ds", y="yhat", title="Prophet + RoBERTa Sentiment Forecast")
-        st.plotly_chart(fig2, use_container_width=True)
+    if {"ds", "yhat"}.issubset(roberta_df.columns):
+        fig = px.line(roberta_df, x="ds", y="yhat", title="Prophet + RoBERTa Sentiment Forecast")
+        st.plotly_chart(fig, use_container_width=True)
     else:
-        st.warning("RoBERTa Prophet data is missing required columns.")
+        st.warning("Missing required columns in RoBERTa Prophet forecast.")
 
-# LightGBM Section
+# ----------------------------- LightGBM Forecast Section -----------------------------
 st.header("⚡ LightGBM Forecasting")
 st.markdown("""
 LightGBM enables feature-rich forecasting including lag features and sentiment averages.
 """)
 
-with st.container():
-    if "date" in lgbm_adv_df.columns and {"y_pred", "y_true"}.issubset(lgbm_adv_df.columns):
-        fig3 = px.line(lgbm_adv_df, x="date", y=["y_pred", "y_true"], title="LightGBM Advanced Forecast vs Actual")
-        st.plotly_chart(fig3, use_container_width=True)
-    elif {"y_pred", "y_true"}.issubset(lgbm_adv_df.columns):
-        fig3 = px.line(lgbm_adv_df.reset_index(), x="index", y=["y_pred", "y_true"], title="LightGBM Advanced Forecast vs Actual")
-        st.plotly_chart(fig3, use_container_width=True)
-    else:
-        st.warning("LightGBM advanced data is missing required columns.")
-
-# Comparison Section
-st.header("📊 Model Comparison")
-st.markdown("Compare how different models track against actual stock price movements.")
-
-if "date" in lgbm_comp_df.columns and {"y_pred", "y_true"}.issubset(lgbm_comp_df.columns):
-    fig4 = px.line(lgbm_comp_df, x="date", y=["y_pred", "y_true"], title="LightGBM Sentiment Forecast vs Actual")
-    st.plotly_chart(fig4, use_container_width=True)
-elif {"y_pred", "y_true"}.issubset(lgbm_comp_df.columns):
-    fig4 = px.line(lgbm_comp_df.reset_index(), x="index", y=["y_pred", "y_true"], title="LightGBM Sentiment Forecast vs Actual")
-    st.plotly_chart(fig4, use_container_width=True)
+if {"date", "y_true", "y_pred"}.issubset(lgbm_adv_df.columns):
+    fig = px.line(lgbm_adv_df, x="date", y=["y_true", "y_pred"], title="LightGBM Advanced Forecast vs Actual")
+    st.plotly_chart(fig, use_container_width=True)
+elif {"y_true", "y_pred"}.issubset(lgbm_adv_df.columns):
+    fig = px.line(lgbm_adv_df.reset_index(), x="index", y=["y_true", "y_pred"], title="LightGBM Advanced Forecast vs Actual")
+    st.plotly_chart(fig, use_container_width=True)
 else:
-    st.warning("LightGBM comparison data is missing required columns.")
+    st.warning("Missing columns in LightGBM advanced forecast.")
 
-# Footer
+# ----------------------------- Model Comparison Section -----------------------------
+st.header("📊 Model Comparison")
+st.markdown("Compare how different LightGBM variants perform against actual market behavior.")
+
+if {"date", "y_true", "y_pred"}.issubset(lgbm_comp_df.columns):
+    fig = px.line(lgbm_comp_df, x="date", y=["y_true", "y_pred"], title="LightGBM Sentiment Forecast vs Actual")
+    st.plotly_chart(fig, use_container_width=True)
+elif {"y_true", "y_pred"}.issubset(lgbm_comp_df.columns):
+    fig = px.line(lgbm_comp_df.reset_index(), x="index", y=["y_true", "y_pred"], title="LightGBM Sentiment Forecast vs Actual")
+    st.plotly_chart(fig, use_container_width=True)
+else:
+    st.warning("Missing columns in LightGBM sentiment forecast.")
+
+# ----------------------------- Footer -----------------------------
 st.markdown("---")
-st.markdown("Built with ❤️ using Streamlit | [GitHub Repo](https://github.com/tripathi-ayushi/StockCast-Forecasting-with-Sentiment-Intelligence)")
+st.markdown("Built with ❤️ using Streamlit | [GitHub](https://github.com/tripathi-ayushi/StockCast-Forecasting-with-Sentiment-Intelligence)")
