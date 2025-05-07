@@ -128,12 +128,6 @@ You can try it live. Right now.
 ## 🗂️ Project Structure
 
 ``` 
-📁 scripts/ 
-├── sentiment/ → Sentiment analysis + Prophet with regressors 
-├── lightgbm/ → Feature engineering + LGBM models 
-├── prophet/ → Vanilla + sentiment Prophet models 
-├── visualization/ → Comparison plots, changepoints 
-└── streamlit_app.py → The interactive dashboard 
 📁 data/ 
 ├── raw/ → Tweet + stock data 
 └── processed/ → Cleaned, merged, feature-ready datasets 
@@ -141,6 +135,12 @@ You can try it live. Right now.
 ├── forecasts/ → All model forecasts 
 ├── charts/ → PNG visualizations 
 └── tuning/ → Grid search outputs 
+📁 scripts/ 
+├── sentiment/ → Sentiment analysis + Prophet with regressors 
+├── lightgbm/ → Feature engineering + LGBM models 
+├── prophet/ → Vanilla + sentiment Prophet models 
+├── visualization/ → Comparison plots, changepoints 
+└── streamlit_app.py → The interactive dashboard 
 📄 requirements.txt → For reproducibility + deployment 
 ```
 
