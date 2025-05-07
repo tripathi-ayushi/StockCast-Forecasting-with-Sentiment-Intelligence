@@ -26,7 +26,7 @@ show_sentiment = st.sidebar.checkbox("Overlay RoBERTa Sentiment Trend", value=Fa
 # About this project (sidebar footer)
 st.sidebar.markdown("---")
 st.sidebar.markdown("**About This Project**")
-st.sidebar.markdown("Built by Shivani using:")
+st.sidebar.markdown("Built by using:")
 st.sidebar.markdown("""
 - [Facebook Prophet](https://facebook.github.io/prophet/)
 - [LightGBM](https://lightgbm.readthedocs.io/)
