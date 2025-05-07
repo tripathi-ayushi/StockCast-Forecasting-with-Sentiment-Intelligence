@@ -1,9 +1,8 @@
-streamlit
 pandas
 numpy
-scikit-learn
+streamlit
 plotly
 prophet
+scikit-learn
 transformers
 torch
-tqdm
