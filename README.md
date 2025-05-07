@@ -2,8 +2,6 @@
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://stockcast-forecasting-with-sentiment-intel.streamlit.app/)
 
-...
-
 What if the stock market wasn’t just driven by data... but by people?
 
 What if emotions, opinions, and hashtags had the power to shape financial decisions — and we could predict that?
